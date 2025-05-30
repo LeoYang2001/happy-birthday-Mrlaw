@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "title": "Cyber Dreams",
+    "description": "A wish for you to chase what truly excites you.",
+    "image": "card.jpg",
+    "message": "Renee, nobody has it all figured out—neither do I. We're both just experiencing this life for the first time and still exploring. I know you're interested in cybersecurity, and whether it's that or something else, I hope you chase the things that light you up. You don't have to prove yourself—just be yourself. That's always been enough. —Leo"
+  },
+  {
+    "id": "2",
+    "title": "Fox in the City",
+    "description": "A reminder to live freely and love your quirks.",
+    "image": "card.jpg",
+    "message": "Remember the windy cruise when you were worried about your bangs? While the Statue of Liberty waved, your forehead showed—and honestly, it made the moment even more real. I hope one day you walk through New York not thinking about what others see, but just enjoying being you. You’re more beautiful when you’re not trying. —Leo"
+  },
+  {
+    "id": "3",
+    "title": "Stage Light",
+    "description": "A nudge to perform boldly, even if just for yourself.",
+    "image": "card.jpg",
+    "message": "I know one day you’ll be playing guitar or drums—not for anyone else, but because it feels good. You don’t need a stage or approval, just a moment that’s yours. Life’s too short to only do what’s assigned. So, plug in, turn it up, and rock out—even if it’s just in your room. —Leo"
+  }
+]
