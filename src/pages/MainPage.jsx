@@ -105,11 +105,11 @@ export default function MainPage() {
       >
         <p
           style={{}}
-          className=" text-md font-semibold text-white mt-1 opacity-50"
+          className=" text-md font-semibold text-black mt-1 opacity-50"
         >
           For {config.recipient}
         </p>
-        <p className=" text-lg  text-white mt-2 opacity-80">{typedGreeting}</p>
+        <p className=" text-lg  text-black mt-2 opacity-80">{typedGreeting}</p>
 
         <h2 className="page-title mt-auto  px-2 py-1 font-semibold opacity-60 rounded-full flex flex-row items-center">
           <div className="flex justify-center mt-4 space-x-2">

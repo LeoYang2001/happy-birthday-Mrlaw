@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 import postcardsData from "../postcards.json";
 import { ChevronLeft } from "lucide-react";
+import config from "../configuration.json";
 
 const postcards = postcardsData.map((card) => ({
   ...card,
@@ -24,7 +25,7 @@ export default function LetterPage() {
   return (
     <div
       style={{
-        backgroundColor: "#dd9b61",
+        backgroundColor: config.themeColor,
         minHeight: "100dvh",
       }}
       className="relative w-fulloverflow-auto flex flex-col items-center p-4"
