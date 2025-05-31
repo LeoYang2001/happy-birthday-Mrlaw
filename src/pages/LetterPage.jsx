@@ -1,53 +1,93 @@
 // LetterPage.jsx
-import React, { useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import React, { useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 
+import postcardsData from "../postcards.json";
+import { ChevronLeft } from "lucide-react";
 
-import postcardsData from '../postcards.json';
-
- const postcards = postcardsData.map(card => ({
-    ...card,
-    image: require(`../assets/${card.image}`)
-  }));
-
+const postcards = postcardsData.map((card) => ({
+  ...card,
+  image: require(`../assets/${card.image}`),
+}));
 
 export default function LetterPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-    const location = useLocation();
-  const card = postcards.find(c => c.id === id);
+  const location = useLocation();
+  const card = postcards.find((c) => c.id === id);
   const [dragY, setDragY] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   if (!card) return <p>Card not found</p>;
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
-      <motion.img
-        src={card.image}
-        alt={card.title}
-        layoutId={`card-${card.id}`}
-        className="absolute top-0 left-0 w-full h-[35vh] object-cover z-0"
-      />
+    <div
+      style={{
+        backgroundColor: "#dd9b61",
+      }}
+      className="relative w-full h-screen overflow-auto flex flex-col items-center p-4"
+    >
+      {!isExpanded && (
+        <motion.img
+          src={card.image}
+          alt={card.title}
+          layoutId={`card-${card.id}`}
+          className="w-[100%] h-[30vh] object-cover rounded-t-2xl shadow-lg cursor-pointer"
+          onClick={() => setIsExpanded(true)}
+          drag="y"
+          dragConstraints={{ top: -10, bottom: 10 }}
+          dragElastic={0.1}
+          whileDrag={{ scale: 1.03 }}
+          onDragEnd={() => setDragY(0)}
+        />
+      )}
+
+      {isExpanded && (
+        <motion.div
+          className="fixed inset-0 z-40 bg-black/60 flex items-center justify-center"
+          onClick={() => setIsExpanded(false)}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.img
+            src={card.image}
+            alt={card.title}
+            layoutId={`card-${card.id}`}
+            className="max-w-full max-h-full object-contain rounded-xl"
+            transition={{ type: "spring", stiffness: 200, damping: 30 }}
+          />
+        </motion.div>
+      )}
 
       <motion.div
-        drag="y"
-        dragConstraints={{ top: -20, bottom: 20 }}
-        dragElastic={0.2}
-        onDrag={(_, info) => setDragY(info.point.y)}
-        onDragEnd={() => setDragY(0)}
-        className="absolute top-[30vh] left-0 right-0 bottom-0 bg-white rounded-t-3xl p-6 z-10 shadow-lg"
+        className="bg-white w-[100%]  h-[60vh] flex flex-col -mt-2 rounded-b-2xl shadow-lg p-6 z-10"
         animate={{ y: 0 }}
-        transition={{ type: 'spring', stiffness: 200, damping: 30 }}
+        transition={{ type: "spring", stiffness: 200, damping: 30 }}
       >
-        <h1 className="text-2xl font-semibold mb-2">{card.title}</h1>
-        <p className="text-gray-600 mb-4">{card.message}</p>
-        <button
-          className="mt-2 text-sm text-blue-500 underline"
-       onClick={() => navigate('/', { state: { index: postcards.findIndex(c => c.id === id) } })}
-        >
-          Go back
-        </button>
+        <h1 className="text-xl font-bold text-gray-900 mb-1">{card.title}</h1>
+        <div className=" flex-1 overflow-scroll">
+          <p className="text-gray-700 leading-relaxed text-base">
+            {card.message}
+          </p>
+          <div className=" w-full  mt-4 flex flex-row justify-end items-center">
+            <p className="text-sm  text-gray-500 mb-4">-Leo</p>
+          </div>
+        </div>
+
+        <div>
+          <button
+            className="mt-6 text-sm backdrop-blur-sm bg-black/10 rounded-full p-2 underline"
+            onClick={() =>
+              navigate("/", {
+                state: { index: postcards.findIndex((c) => c.id === id) },
+              })
+            }
+          >
+            <ChevronLeft color="#000" />
+          </button>
+        </div>
       </motion.div>
     </div>
   );
