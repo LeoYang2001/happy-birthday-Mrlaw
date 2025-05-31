@@ -49,6 +49,8 @@ export default function MainPage() {
   const location = useLocation();
   const initialIndex = location.state?.index || 0;
 
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+
   useEffect(() => {
     controls.start({
       x: -initialIndex * (SCREEN_WIDTH * 0.9 + SCROLL_OFFSET),
@@ -72,6 +74,7 @@ export default function MainPage() {
       x: -clampedIndex * (SCREEN_WIDTH * 0.9 + SCROLL_OFFSET),
       transition: { type: "spring", stiffness: 300, damping: 30 },
     });
+    setCurrentIndex(clampedIndex);
   };
   return (
     <div
@@ -102,15 +105,23 @@ export default function MainPage() {
       >
         <p
           style={{}}
-          className=" text-md font-semibold text-white mt-6 opacity-50"
+          className=" text-md font-semibold text-white mt-1 opacity-50"
         >
           For {config.recipient}
         </p>
         <p className=" text-lg  text-white mt-2 opacity-80">{typedGreeting}</p>
 
-        <h2 className="page-title mt-auto border px-2 py-1  bg-white  font-semibold opacity-60 rounded-full flex flex-row items-center">
-          <ArrowDown size={18} className=" mr-1" />
-          {config.ctaLabel}
+        <h2 className="page-title mt-auto  px-2 py-1 font-semibold opacity-60 rounded-full flex flex-row items-center">
+          <div className="flex justify-center mt-4 space-x-2">
+            {postcards.map((_, idx) => (
+              <div
+                key={idx}
+                className={`w-2 h-2 rounded-full ${
+                  idx === currentIndex ? "bg-white" : "bg-white/30"
+                }`}
+              />
+            ))}
+          </div>
         </h2>
       </div>
       <AnimatePresence>
