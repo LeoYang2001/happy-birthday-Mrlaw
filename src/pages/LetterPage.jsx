@@ -25,8 +25,9 @@ export default function LetterPage() {
     <div
       style={{
         backgroundColor: "#dd9b61",
+        minHeight: "100dvh",
       }}
-      className="relative w-full h-screen overflow-auto flex flex-col items-center p-4"
+      className="relative w-fulloverflow-auto flex flex-col items-center p-4"
     >
       {!isExpanded && (
         <motion.img

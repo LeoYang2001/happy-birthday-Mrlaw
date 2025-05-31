@@ -86,7 +86,7 @@ export default function MainPage() {
         className="  absolute  w-28 h-16"
         style={{
           backgroundImage: `url(${foxWallpaper})`,
-          backgroundSize: "80%",
+          backgroundSize: "50%",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           top: "100%",
@@ -116,7 +116,7 @@ export default function MainPage() {
       <AnimatePresence>
         {true && (
           <motion.div
-            className="gallery-section"
+            className="gallery-section  flex flex-col"
             style={{ flexGrow: 1, minHeight: 0 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -124,10 +124,10 @@ export default function MainPage() {
           >
             <div
               ref={containerRef}
-              className="card-scroll-container w-full    h-full  overflow-hidden"
+              className="card-scroll-container w-full  flex-1  flex flex-col  overflow-hidden"
             >
               <motion.div
-                className="card-drag-row h-full  "
+                className="card-drag-row  flex-1  "
                 drag="x"
                 style={{
                   x,
