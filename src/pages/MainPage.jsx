@@ -12,7 +12,6 @@ import postcardsData from "../postcards.json";
 import PostCard from "../components/PostCard";
 import { useLocation } from "react-router-dom";
 import config from "../configuration.json";
-import typingSound from "../assets/keyboard.flac";
 
 const postcards = postcardsData.map((card) => ({
   ...card,
@@ -22,10 +21,13 @@ const postcards = postcardsData.map((card) => ({
 const SCREEN_WIDTH = window.screen.width;
 const SCROLL_OFFSET = 0;
 
-export default function MainPage({ hasTyped, setHasTyped, startTyping }) {
+export default function MainPage({
+  typingAudioRef,
+  hasTyped,
+  setHasTyped,
+  startTyping,
+}) {
   const [typedGreeting, setTypedGreeting] = useState("");
-
-  const typingAudioRef = useRef(new Audio(typingSound));
 
   useEffect(() => {
     if (!startTyping) return;
@@ -36,11 +38,6 @@ export default function MainPage({ hasTyped, setHasTyped, startTyping }) {
       return setTypedGreeting(fullMessage);
     }
 
-    const audio = typingAudioRef.current;
-    audio.currentTime = 6; // Start from 6th second
-    audio.loop = true;
-    audio.play().catch(() => {});
-
     const interval = setInterval(() => {
       setTypedGreeting((prev) => {
         if (index < fullMessage.length) {
@@ -49,19 +46,13 @@ export default function MainPage({ hasTyped, setHasTyped, startTyping }) {
           return next;
         } else {
           clearInterval(interval);
-          audio.pause(); // Stop the sound when typing is done
-          audio.currentTime = 0;
           return prev;
         }
       });
       setHasTyped(true);
     }, 100);
 
-    return () => {
-      clearInterval(interval);
-      audio.pause(); // Also stop audio on unmount
-      audio.currentTime = 0;
-    };
+    return () => clearInterval(interval);
   }, [startTyping]);
 
   const navigate = useNavigate();

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import LetterPage from "./pages/LetterPage";
 import ExpandableVideoPlayer from "./components/ExpandableVideoPlayer";
+import typingSound from "./assets/keyboard.flac";
 
 export default function App() {
   const [hasTyped, setHasTyped] = useState(false);
@@ -14,12 +15,12 @@ export default function App() {
     <div className="w-[100vw] h-[100vh]  overflow-hidden">
       <div
         style={{
-          zIndex: 300,
+          zIndex: 999,
           width: isExpanded ? "100vw" : 80,
           height: isExpanded ? "100vh" : 80,
           transition: " all 0.2s linear",
         }}
-        className="absolute right-0 top-0 "
+        className="absolute right-0 top-0  "
       >
         <ExpandableVideoPlayer
           isExpanded={isExpanded}
