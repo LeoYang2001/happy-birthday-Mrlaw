@@ -7,13 +7,12 @@ import {
   useMotionValue,
   useAnimation,
 } from "framer-motion";
-import IntroVideoPlayer from "../components/IntroVideoPlayer";
 import foxWallpaper from "../assets/fox.png";
 import postcardsData from "../postcards.json";
 import PostCard from "../components/PostCard";
 import { useLocation } from "react-router-dom";
-import { ArrowDown } from "lucide-react";
 import config from "../configuration.json";
+import typingSound from "../assets/keyboard.flac";
 
 const postcards = postcardsData.map((card) => ({
   ...card,
@@ -23,23 +22,47 @@ const postcards = postcardsData.map((card) => ({
 const SCREEN_WIDTH = window.screen.width;
 const SCROLL_OFFSET = 0;
 
-export default function MainPage() {
-  const [videoCollapsed, setVideoCollapsed] = useState(true); // for demo use
+export default function MainPage({ hasTyped, setHasTyped, startTyping }) {
   const [typedGreeting, setTypedGreeting] = useState("");
 
+  const typingAudioRef = useRef(new Audio(typingSound));
+
   useEffect(() => {
+    if (!startTyping) return;
     const fullMessage = config.greetingMessage;
     let index = 0;
+
+    if (hasTyped) {
+      return setTypedGreeting(fullMessage);
+    }
+
+    const audio = typingAudioRef.current;
+    audio.currentTime = 6; // Start from 6th second
+    audio.loop = true;
+    audio.play().catch(() => {});
+
     const interval = setInterval(() => {
-      if (index < fullMessage.length) {
-        setTypedGreeting((prev) => prev + fullMessage.charAt(index));
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 40); // Adjust speed here
-    return () => clearInterval(interval);
-  }, []);
+      setTypedGreeting((prev) => {
+        if (index < fullMessage.length) {
+          const next = fullMessage.slice(0, index + 1);
+          index += 1;
+          return next;
+        } else {
+          clearInterval(interval);
+          audio.pause(); // Stop the sound when typing is done
+          audio.currentTime = 0;
+          return prev;
+        }
+      });
+      setHasTyped(true);
+    }, 100);
+
+    return () => {
+      clearInterval(interval);
+      audio.pause(); // Also stop audio on unmount
+      audio.currentTime = 0;
+    };
+  }, [startTyping]);
 
   const navigate = useNavigate();
   const x = useMotionValue(0);
@@ -58,9 +81,6 @@ export default function MainPage() {
     });
   }, []);
 
-  const handleIntroEnd = () => {
-    setVideoCollapsed(true);
-  };
   const openCard = (id, index) => {
     navigate(`/letter/${id}`, { state: { index } });
   };
@@ -109,7 +129,7 @@ export default function MainPage() {
         >
           For {config.recipient}
         </p>
-        <p className=" text-lg  text-black mt-2 opacity-80">{typedGreeting}</p>
+        <p className=" text-lg  text-black mt-10 opacity-80">{typedGreeting}</p>
 
         <h2 className="page-title mt-auto  px-2 py-1 font-semibold opacity-60 rounded-full flex flex-row items-center">
           <div className="flex justify-center mt-4 space-x-2">
