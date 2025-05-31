@@ -77,7 +77,7 @@ export default function MainPage() {
     <div
       style={{
         width: "100vw",
-        height: "100vh",
+        minHeight: "100dvh",
         backgroundColor: config.themeColor,
       }}
       className="main-page  flex flex-col  "
@@ -116,7 +116,8 @@ export default function MainPage() {
       <AnimatePresence>
         {true && (
           <motion.div
-            className="gallery-section flex-1"
+            className="gallery-section"
+            style={{ flexGrow: 1, minHeight: 0 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
