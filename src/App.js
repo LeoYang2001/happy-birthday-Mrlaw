@@ -16,7 +16,7 @@ export default function App() {
         style={{
           zIndex: 999,
           width: isExpanded ? "100vw" : 80,
-          height: isExpanded ? "100vh" : 80,
+          height: isExpanded ? "100dvh" : 80,
           transition: " all 0.2s linear",
         }}
         className="absolute right-0 top-0  bg-red-500 border border-red-500 "
