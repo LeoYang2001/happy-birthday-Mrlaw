@@ -41,13 +41,14 @@ export default function ExpandableVideoPlayer({
         }`}
       >
         {!isExpanded && (
-          <div className="bg-white opacity-60 flex justify-center right-2 top-2  items-center absolute w-8 h-8 rounded-full">
+          <div className="bg-red-500 opacity-60 flex justify-center right-2 top-2  items-center absolute w-8 h-8 rounded-full">
             <Piano size={18} />
           </div>
         )}
 
         <video
           ref={videoRef}
+          playsInline
           src={require("../assets/piano.mov")}
           className={`w-full h-full ${
             isExpanded ? "object-contain bg-black" : "object-cover"
