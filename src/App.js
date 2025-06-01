@@ -19,7 +19,7 @@ export default function App() {
           height: isExpanded ? "100vh" : 80,
           transition: " all 0.2s linear",
         }}
-        className="absolute right-0 top-0  "
+        className="absolute right-0 top-0  bg-red-500 border border-red-500 "
       >
         <ExpandableVideoPlayer
           isExpanded={isExpanded}

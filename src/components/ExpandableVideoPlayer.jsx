@@ -36,12 +36,12 @@ export default function ExpandableVideoPlayer({
       <motion.div
         layoutId="piano-video"
         onClick={handleToggle}
-        className={`cursor-pointer   relative  overflow-visible   bg-green-500 flex justify-end  items-center transition-all duration-500 ${
+        className={`cursor-pointer   relative  overflow-visible  flex justify-end  items-center transition-all duration-500 ${
           isExpanded && "h-[100dvh]"
         }`}
       >
         {!isExpanded && (
-          <div className="bg-red-500 opacity-60 flex justify-center right-2 top-2  items-center absolute w-8 h-8 rounded-full">
+          <div className="bg-white opacity-60 flex justify-center right-2 top-2  items-center absolute w-8 h-8 rounded-full">
             <Piano size={18} />
           </div>
         )}
