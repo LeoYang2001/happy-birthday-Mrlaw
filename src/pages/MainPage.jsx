@@ -94,7 +94,7 @@ export default function MainPage({
         minHeight: "100dvh",
         backgroundColor: config.themeColor,
       }}
-      className="main-page  flex flex-col  border border-pink-500  overflow-hidden"
+      className="main-page  flex flex-col   overflow-hidden"
     >
       <div
         className="  absolute  w-28 h-16"
