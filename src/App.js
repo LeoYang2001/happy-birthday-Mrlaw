@@ -11,7 +11,7 @@ export default function App() {
   const [startTyping, setStartTyping] = useState(false);
 
   return (
-    <div className="w-[100vw] h-[100vh]  overflow-hidden">
+    <div className="w-[100vw] h-[100dvh]  overflow-hidden">
       <div
         style={{
           zIndex: 999,
