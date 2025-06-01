@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import LetterPage from "./pages/LetterPage";
 import ExpandableVideoPlayer from "./components/ExpandableVideoPlayer";
-import typingSound from "./assets/keyboard.flac";
 
 export default function App() {
   const [hasTyped, setHasTyped] = useState(false);

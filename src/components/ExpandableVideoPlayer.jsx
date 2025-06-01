@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Piano, Play } from "lucide-react";
 
@@ -17,7 +17,6 @@ export default function ExpandableVideoPlayer({
 
   const handleStart = (e) => {
     e.stopPropagation();
-    videoRef.current?.play();
     setHasStarted(true);
     setIsMuted(false);
     setTimeout(() => {
@@ -26,13 +25,19 @@ export default function ExpandableVideoPlayer({
     }, 2000);
   };
 
+  useEffect(() => {
+    if (hasStarted && videoRef.current) {
+      videoRef.current.play();
+    }
+  }, [hasStarted]);
+
   return (
     <AnimatePresence>
       <motion.div
         layoutId="piano-video"
         onClick={handleToggle}
-        className={`cursor-pointer   relative  overflow-visible  flex justify-end  items-center transition-all duration-500 ${
-          isExpanded && "h-[100vh]"
+        className={`cursor-pointer   relative  overflow-visible   flex justify-end  items-center transition-all duration-500 ${
+          isExpanded && "h-[100dvh]"
         }`}
       >
         {!isExpanded && (
