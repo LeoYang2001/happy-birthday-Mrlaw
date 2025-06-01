@@ -25,6 +25,7 @@ export default function App() {
           isExpanded={isExpanded}
           setIsExpanded={setIsExpanded}
           setStartTyping={setStartTyping}
+          hasTyped={hasTyped}
         />
       </div>
       <Router>

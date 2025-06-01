@@ -6,13 +6,23 @@ export default function ExpandableVideoPlayer({
   isExpanded,
   setIsExpanded,
   setStartTyping,
+  hasTyped,
 }) {
   const [isMuted, setIsMuted] = useState(true);
   const [hasStarted, setHasStarted] = useState(false);
   const videoRef = useRef(null);
 
   const handleToggle = () => {
-    setIsExpanded(!isExpanded);
+    if (!hasTyped) {
+      setHasStarted(true);
+      setIsMuted(false);
+      setTimeout(() => {
+        setIsExpanded(false);
+        setStartTyping(true);
+      }, 2000);
+    } else {
+      setIsExpanded(!isExpanded);
+    }
   };
 
   const handleStart = (e) => {
