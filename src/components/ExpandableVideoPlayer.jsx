@@ -59,7 +59,7 @@ export default function ExpandableVideoPlayer({
         <video
           ref={videoRef}
           playsInline
-          src={require("../assets/piano.mov")}
+          src={require("../assets/piano.mp4")}
           className={`w-full h-full ${
             isExpanded ? "object-contain bg-black" : "object-cover"
           }`}
