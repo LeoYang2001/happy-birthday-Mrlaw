@@ -1,5 +1,5 @@
 // MainPage.jsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   motion,
@@ -8,26 +8,40 @@ import {
   useAnimation,
 } from "framer-motion";
 import foxWallpaper from "../assets/fox.png";
-import postcardsData from "../postcards.json";
 import PostCard from "../components/PostCard";
 import { useLocation } from "react-router-dom";
 import config from "../configuration.json";
 
-const postcards = postcardsData.map((card) => ({
-  ...card,
-  image: require(`../assets/${card.image}`),
-}));
 
 const SCREEN_WIDTH = window.screen.width;
 const SCROLL_OFFSET = 0;
 
 export default function MainPage({
-  typingAudioRef,
+  ifChinese,
+  setIfChinese,
   hasTyped,
   setHasTyped,
   startTyping,
 }) {
   const [typedGreeting, setTypedGreeting] = useState("");
+
+
+    const postcards = useMemo(() => {
+    const data = ifChinese
+      ? import("../postcards_chinese.json")
+      : import("../postcards.json");
+
+    return data.map((card) => ({
+      ...card,
+      image: require(`../assets/${card.image}`),
+    }));
+  }, [ifChinese]);
+
+
+  useEffect(() => {
+    console.log('language toggle, ', postcards)
+  }, [postcards])
+  
 
   useEffect(() => {
     if (!startTyping) return;

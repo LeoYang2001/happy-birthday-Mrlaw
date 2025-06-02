@@ -12,7 +12,7 @@ const postcards = postcardsData.map((card) => ({
   image: require(`../assets/${card.image}`),
 }));
 
-export default function LetterPage() {
+export default function LetterPage({ifChinese, setIfChinese}) {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,6 +30,7 @@ export default function LetterPage() {
       }}
       className="relative w-fulloverflow-auto flex flex-col items-center p-4"
     >
+      
       {!isExpanded && (
         <motion.img
           src={card.image}
@@ -69,6 +70,26 @@ export default function LetterPage() {
         transition={{ type: "spring", stiffness: 200, damping: 30 }}
       >
         <h1 className="text-xl font-bold text-gray-900 mb-1">{card.title}</h1>
+         {/* Switch Button */}
+        <div className=" bg-red-500">
+          <label className="flex items-center space-x-2 text-sm font-medium text-black bg-white px-3 py-1 rounded-full shadow">
+            <span>{ifChinese ? "中文" : "English"}</span>
+            <button
+              onClick={() =>{
+                 setIfChinese(!ifChinese)
+                 console.log("ifChinese:")
+                 console.log(ifChinese)
+              }}
+              className="w-10 h-5 bg-gray-300 rounded-full relative focus:outline-none"
+            >
+              <span
+                className={`absolute left-1 top-1 w-3 h-3 bg-white rounded-full shadow transition-transform ${
+                  ifChinese ? "translate-x-5" : ""
+                }`}
+              />
+            </button>
+          </label>
+        </div>
         <div className=" flex-1 overflow-scroll">
           <p className="text-gray-700 leading-relaxed text-base">
             {card.message}

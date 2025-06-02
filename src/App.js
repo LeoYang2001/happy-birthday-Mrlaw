@@ -1,5 +1,5 @@
 // App.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import LetterPage from "./pages/LetterPage";
@@ -9,6 +9,12 @@ export default function App() {
   const [hasTyped, setHasTyped] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [startTyping, setStartTyping] = useState(false);
+  const [ifChinese, setIfChinese] = useState(true)
+
+  useEffect(() => {
+    console.log(ifChinese)
+  }, [ifChinese])
+  
 
   return (
     <div className="w-[100vw] h-[100dvh]  overflow-hidden">
@@ -34,13 +40,16 @@ export default function App() {
             path="/"
             element={
               <MainPage
+                ifChinese={ifChinese}
+                setIfChinese={setIfChinese}
                 startTyping={startTyping}
                 hasTyped={hasTyped}
                 setHasTyped={setHasTyped}
               />
             }
           />
-          <Route path="/letter/:id" element={<LetterPage />} />
+                
+          <Route path="/letter/:id" element={<LetterPage ifChinese={ifChinese} setIfChinese={setIfChinese}  />} />
         </Routes>
       </Router>
     </div>
