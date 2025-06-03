@@ -1,6 +1,8 @@
 {
   "recipient": "Mr. Law",
-  "greetingMessage": "Happy Birthday, Renee! I have so many thoughts and wishes for you. Instead of just writing them, I visualized them into these postcards, each one a little piece of what I hope for you. I hope you'll enjoy exploring them as much as I enjoyed creating them.",
+  "greetingMessage": "Dear Mr. Law, happy birthday. I thought a lot about what gift I should get for you. I made this website for you so you can always refer to it in the future if you’d like. I think this is a good way to express my gratitude to you.",
+  "greetingMessage_translated": "親愛的Mr. Law，生日快樂。我思考了很久該送您什麼樣的禮物。最後我決定為您製作這個網站，讓您日後想看的時候隨時可以翻閱。我覺得這是我表達感謝的一個有意義的方式。",
+ 
   "ctaLabel": "Open a postcard",
-  "themeColor": "#fada96"
+  "themeColor": "#A3B18A"
 }

@@ -6,19 +6,23 @@ import { motion } from "framer-motion";
 import postcardsData from "../postcards.json";
 import { ChevronLeft } from "lucide-react";
 import config from "../configuration.json";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleLanguage } from "../slices/languageSlice";
 
 const postcards = postcardsData.map((card) => ({
   ...card,
   image: require(`../assets/${card.image}`),
 }));
 
-export default function LetterPage({ifChinese, setIfChinese}) {
+export default function LetterPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const card = postcards.find((c) => c.id === id);
   const [dragY, setDragY] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+const ifChinese = useSelector((state) => state.language.ifChinese);
+  const dispatch = useDispatch();
+  
 
   if (!card) return <p>Card not found</p>;
 
@@ -69,17 +73,14 @@ export default function LetterPage({ifChinese, setIfChinese}) {
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 200, damping: 30 }}
       >
-        <h1 className="text-xl font-bold text-gray-900 mb-1">{card.title}</h1>
+        <h1 className="text-xl font-bold text-gray-900 mb-1">{ifChinese ? card.title_translated : card.title}</h1>
          {/* Switch Button */}
-        <div className=" bg-red-500">
-          <label className="flex items-center space-x-2 text-sm font-medium text-black bg-white px-3 py-1 rounded-full shadow">
+        <div className=" flex flex-row justify-end items-center my-2">
             <span>{ifChinese ? "中文" : "English"}</span>
-            <button
-              onClick={() =>{
-                 setIfChinese(!ifChinese)
-                 console.log("ifChinese:")
-                 console.log(ifChinese)
-              }}
+          
+          <label className="flex items-center space-x-2 text-sm font-medium text-black bg-white px-3 py-1 rounded-full ">
+             <button
+            onClick={() => dispatch(toggleLanguage())}
               className="w-10 h-5 bg-gray-300 rounded-full relative focus:outline-none"
             >
               <span
@@ -89,10 +90,11 @@ export default function LetterPage({ifChinese, setIfChinese}) {
               />
             </button>
           </label>
+
         </div>
         <div className=" flex-1 overflow-scroll">
           <p className="text-gray-700 leading-relaxed text-base">
-            {card.message}
+            {ifChinese ? card.message_transalted : card.message}
           </p>
           <div className=" w-full  mt-4 flex flex-row justify-end items-center">
             <p className="text-sm  text-gray-500 mb-4">-Leo</p>

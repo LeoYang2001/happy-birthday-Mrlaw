@@ -1,5 +1,5 @@
 // MainPage.jsx
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   motion,
@@ -7,48 +7,41 @@ import {
   useMotionValue,
   useAnimation,
 } from "framer-motion";
-import foxWallpaper from "../assets/fox.png";
+import foxWallpaper from "../assets/dog.png";
+import postcardsData from "../postcards.json";
 import PostCard from "../components/PostCard";
 import { useLocation } from "react-router-dom";
 import config from "../configuration.json";
+import { useSelector } from "react-redux";
+import { ArrowDown } from "lucide-react";
 
+const postcards = postcardsData.map((card) => ({
+  ...card,
+  image: require(`../assets/${card.image}`),
+}));
 
 const SCREEN_WIDTH = window.screen.width;
 const SCROLL_OFFSET = 0;
 
 export default function MainPage({
-  ifChinese,
-  setIfChinese,
+  typingAudioRef,
   hasTyped,
   setHasTyped,
   startTyping,
 }) {
   const [typedGreeting, setTypedGreeting] = useState("");
+  const ifChinese = useSelector((state) => state.language.ifChinese);
+  const [showBtn, setShowBtn] = useState(false)
+  const [hasClicked, setHasClicked] = useState(false)
 
-
-    const postcards = useMemo(() => {
-    const data = ifChinese
-      ? import("../postcards_chinese.json")
-      : import("../postcards.json");
-
-    return data.map((card) => ({
-      ...card,
-      image: require(`../assets/${card.image}`),
-    }));
-  }, [ifChinese]);
-
-
-  useEffect(() => {
-    console.log('language toggle, ', postcards)
-  }, [postcards])
-  
 
   useEffect(() => {
     if (!startTyping) return;
-    const fullMessage = config.greetingMessage;
+    const fullMessage = ifChinese ? config.greetingMessage_translated : config.greetingMessage;
     let index = 0;
 
     if (hasTyped) {
+
       return setTypedGreeting(fullMessage);
     }
 
@@ -60,6 +53,8 @@ export default function MainPage({
           return next;
         } else {
           clearInterval(interval);
+          setShowBtn(true)
+
           return prev;
         }
       });
@@ -67,7 +62,7 @@ export default function MainPage({
     }, 100);
 
     return () => clearInterval(interval);
-  }, [startTyping]);
+  }, [startTyping, ifChinese]);
 
   const navigate = useNavigate();
   const x = useMotionValue(0);
@@ -136,8 +131,25 @@ export default function MainPage({
         </p>
         <p className=" text-lg  text-black mt-10 opacity-80">{typedGreeting}</p>
 
-        <h2 className="page-title mt-auto  px-2 py-1 font-semibold opacity-60 rounded-full flex flex-row items-center">
-          <div className="flex justify-center mt-4 space-x-2">
+        <h2 className="page-title relative w-full   justify-center mt-auto  px-2 py-1 font-semibold opacity-60 rounded-full flex flex-row items-center">
+            {
+              !hasClicked && (
+                <div style={{
+                  opacity: showBtn ? 1: 0,
+                  transition:"all 1s linear"
+                }} className="absolute   flex justify-center -top-8 w-full">
+               <div className="animate-shake flex items-center bg-white px-2 rounded-full">
+                <ArrowDown size={14} className=" mr-1" />
+                {
+                  ifChinese ? `點擊下方的明信片`:`click postcards below`
+                }
+                 
+               </div>
+              </div>
+              )
+            }
+          <div className="flex  justify-center mt-4 space-x-2">
+           
             {postcards.map((_, idx) => (
               <div
                 key={idx}
@@ -148,6 +160,7 @@ export default function MainPage({
             ))}
           </div>
         </h2>
+           
       </div>
       <AnimatePresence>
         {true && (
@@ -179,7 +192,10 @@ export default function MainPage({
                     key={card.id}
                     layoutId={`card-${card.id}`}
                     className="postcard-card   flex flex-col  px-4 py-4 pb-24"
-                    onClick={() => openCard(card.id, index)}
+                    onClick={() => {
+                      setHasClicked(true)
+                      openCard(card.id, index)
+                    }}
                     whileTap={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     style={{ width: "90vw", flexShrink: 0 }}

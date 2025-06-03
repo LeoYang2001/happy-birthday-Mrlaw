@@ -4,19 +4,19 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import LetterPage from "./pages/LetterPage";
 import ExpandableVideoPlayer from "./components/ExpandableVideoPlayer";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 export default function App() {
   const [hasTyped, setHasTyped] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [startTyping, setStartTyping] = useState(false);
-  const [ifChinese, setIfChinese] = useState(true)
 
-  useEffect(() => {
-    console.log(ifChinese)
-  }, [ifChinese])
+
   
 
   return (
+    <Provider store={store}>
     <div className="w-[100vw] h-[100dvh]  overflow-hidden">
       <div
         style={{
@@ -40,8 +40,6 @@ export default function App() {
             path="/"
             element={
               <MainPage
-                ifChinese={ifChinese}
-                setIfChinese={setIfChinese}
                 startTyping={startTyping}
                 hasTyped={hasTyped}
                 setHasTyped={setHasTyped}
@@ -49,9 +47,10 @@ export default function App() {
             }
           />
                 
-          <Route path="/letter/:id" element={<LetterPage ifChinese={ifChinese} setIfChinese={setIfChinese}  />} />
+          <Route path="/letter/:id" element={<LetterPage  />} />
         </Routes>
       </Router>
     </div>
+    </Provider>
   );
 }
