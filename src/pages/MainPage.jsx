@@ -88,7 +88,7 @@ export default function MainPage({
   const handleDragEnd = (_, info) => {
     const width = containerRef.current?.offsetWidth || 0;
     const cardWidth = 0.9 * width;
-    const index = Math.round(-x.get() / cardWidth);
+    const index = Math.floor((-x.get() + cardWidth / 2) / cardWidth);
     const clampedIndex = Math.max(0, Math.min(postcards.length - 1, index));
     controls.start({
       x: -clampedIndex * (SCREEN_WIDTH * 0.9 + SCROLL_OFFSET),
